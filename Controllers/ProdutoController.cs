@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using CrudDot.Models;
 using CrudDot.DTOs;
+using Microsoft.EntityFrameworkCore;
+using CrudDot.Data;
 
 namespace CrudDot.Controllers;
 
@@ -8,12 +10,17 @@ namespace CrudDot.Controllers;
 [Route("api/[controller]")]
 public class ProdutoController : ControllerBase
 {
-    public static List<Produto> produtos = new List<Produto>();
+private readonly AppDbContext _context;
+
+public ProdutoController(AppDbContext context)
+    {
+        _context = context;
+    }
 
     [HttpGet]
     public IActionResult Get()
     {
-        return Ok(produtos);
+        return Ok(_context.Produtos.ToList());
     }
 
     [HttpPost]
@@ -21,19 +28,20 @@ public class ProdutoController : ControllerBase
     {
         var produto = new Produto
         {
-           Id = produtos.Count + 1,
-           Nome = dto.Nome,
-           Preco = dto.Preco 
+        Nome = dto.Nome,
+        Preco = dto.Preco
         };
 
-        produtos.Add(produto);
+        _context.Produtos.Add(produto);
+        _context.SaveChanges();
+
         return Ok(produto);
     }
 
     [HttpGet("{id}")]
     public IActionResult GetById(int id)
     {
-        var produto = produtos.FirstOrDefault(p => p.Id == id);
+        var produto = _context.Produtos.FirstOrDefault(p => p.Id == id);
 
         if (produto == null)
            return NotFound();
@@ -45,7 +53,7 @@ public class ProdutoController : ControllerBase
     [HttpPut("{id}")]
     public IActionResult Update(int id, ProdutoCreateDTO dto)
     {
-        var produto = produtos.FirstOrDefault(p => p.Id == id);
+        var produto = _context.Produtos.FirstOrDefault(p => p.Id == id);
 
         if(produto == null)
            return NotFound();
@@ -60,12 +68,13 @@ public class ProdutoController : ControllerBase
 
     public IActionResult Delete(int id)
     {
-        var produto = produtos.FirstOrDefault(p => p.Id == id);
+        var produto = _context.Produtos.FirstOrDefault(p => p.Id == id);
 
         if (produto == null)
             return NotFound();
         
-        produtos.Remove(produto);
+        _context.Produtos.Remove(produto);
+        _context.SaveChanges();
 
         return NoContent();
     }
