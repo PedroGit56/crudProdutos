@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Pichau\\Documents\\CRUD\\CrudDot\\Backend\\CrudDot.csproj": {}
+    "C:\\Users\\Pichau\\Documents\\CRUD\\CrudDot\\backend\\CrudDot.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Pichau\\Documents\\CRUD\\CrudDot\\Backend\\CrudDot.csproj": {
+    "C:\\Users\\Pichau\\Documents\\CRUD\\CrudDot\\backend\\CrudDot.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Pichau\\Documents\\CRUD\\CrudDot\\Backend\\CrudDot.csproj",
+        "projectUniqueName": "C:\\Users\\Pichau\\Documents\\CRUD\\CrudDot\\backend\\CrudDot.csproj",
         "projectName": "CrudDot",
-        "projectPath": "C:\\Users\\Pichau\\Documents\\CRUD\\CrudDot\\Backend\\CrudDot.csproj",
+        "projectPath": "C:\\Users\\Pichau\\Documents\\CRUD\\CrudDot\\backend\\CrudDot.csproj",
         "packagesPath": "C:\\Users\\Pichau\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Pichau\\Documents\\CRUD\\CrudDot\\Backend\\obj\\",
+        "outputPath": "C:\\Users\\Pichau\\Documents\\CRUD\\CrudDot\\backend\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

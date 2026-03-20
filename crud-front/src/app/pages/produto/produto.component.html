@@ -1,0 +1,13 @@
+<h2>Criar Produto</h2>
+
+<form [formGroup]="form" (ngSubmit)="salvar()">
+
+  <label>Nome:</label><br>
+  <input type="text" formControlName="nome"><br><br>
+
+  <label>Preço:</label><br>
+  <input type="number" formControlName="preco"><br><br>
+
+  <button type="submit">Salvar</button>
+
+</form>

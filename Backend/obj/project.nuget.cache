@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "QK/ZBqwyPoyYQA+AQDkT2LoB1YPYnrhVrTgOlCgnocYZ3/jqNXS/JHozdreND+lEMoAWJqFjLMslYDp6eN7CDg==",
+  "dgSpecHash": "ikpXvU3RsvDLoajQ6y0W9aqCII7rXT5FYr4UbGz6Cfi1ZMMQIMYkf6NdqkL6vv1thuiAxKfMqZ9MaV/Mh6r6Ow==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Pichau\\Documents\\CRUD\\CrudDot\\Backend\\CrudDot.csproj",
+  "projectFilePath": "C:\\Users\\Pichau\\Documents\\CRUD\\CrudDot\\backend\\CrudDot.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Pichau\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\Pichau\\.nuget\\packages\\microsoft.csharp\\4.5.0\\microsoft.csharp.4.5.0.nupkg.sha512",
