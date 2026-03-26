@@ -11,3 +11,8 @@
   <button type="submit">Salvar</button>
 
 </form>
+
+<div *ngFor="let produto of produtos">
+  <p>{{ produto.nome }} - R$ {{ produto.preco }}</p>
+</div>
+

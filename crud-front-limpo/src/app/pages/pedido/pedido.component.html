@@ -1,0 +1,28 @@
+<div class="container">
+
+  <div class="card">
+    <h2>Criar Pedido</h2>
+
+    <form [formGroup]="form" (ngSubmit)="salvar()">
+
+      <input type="number" formControlName="numero" placeholder="Número do pedido" />
+
+      <h3>Selecione os produtos</h3>
+
+      <div *ngFor="let produto of produtos">
+        <label>
+            
+          <input type="checkbox"
+                 (change)="selecionarProduto(produto.id, $event)" />
+          {{ produto.nome }} - R$ {{ produto.preco }}
+           
+        </label>
+      </div>
+      <p *ngIf="produtos.length === 0">Nenhum produto cadastrado.</p>
+
+      <button type="submit">Criar Pedido</button>
+
+    </form>
+  </div>
+
+</div>

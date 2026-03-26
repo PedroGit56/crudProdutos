@@ -13,7 +13,7 @@ import { ProdutoService } from '../../services/produto.service';
 export class ProdutoComponent implements OnInit {
 
   form!: FormGroup;
-  produtos: any[] = []; // 👈 LISTA AQUI
+  produtos: any[] = []; // 
 
   constructor(
     private fb: FormBuilder,
@@ -26,14 +26,14 @@ export class ProdutoComponent implements OnInit {
       preco: [0]
     });
 
-    this.listar(); // 👈 CHAMA AO INICIAR
+    this.listar(); 
   }
 
   listar() {
     this.service.getProdutos().subscribe({
       next: (res) => {
         console.log('PRODUTOS:', res);
-        this.produtos = res; // 👈 JOGA PRA TELA
+        this.produtos = res; 
       },
       error: (err) => {
         console.error(err);
@@ -46,7 +46,7 @@ export class ProdutoComponent implements OnInit {
       next: () => {
         alert('Produto criado!');
         this.form.reset();
-        this.listar(); // 👈 ATUALIZA A LISTA
+        this.listar(); // 
       },
       error: (err) => {
         console.error(err);
