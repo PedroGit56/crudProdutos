@@ -12,4 +12,6 @@ public class Produto
 
     [Column(TypeName = "decimal(10,2)")]
     public decimal Preco { get; set; }
+
+    public List<Pedido> Pedidos { get; set; } = new(); 
 }

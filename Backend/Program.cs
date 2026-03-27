@@ -14,6 +14,14 @@ builder.Services.AddCors(options =>
     });
 });
 
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.ReferenceHandler = 
+            System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
+    });
+
+
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseMySql(
         "server=localhost;database=CrudDotDb;user=root;password=;",

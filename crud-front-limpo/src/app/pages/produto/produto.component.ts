@@ -13,7 +13,8 @@ import { ProdutoService } from '../../services/produto.service';
 export class ProdutoComponent implements OnInit {
 
   form!: FormGroup;
-  produtos: any[] = []; // 
+  produtos: any[] = [];
+  produtoEditandoId: number | null = null;
 
   constructor(
     private fb: FormBuilder,
@@ -29,6 +30,7 @@ export class ProdutoComponent implements OnInit {
     this.listar(); 
   }
 
+  
   listar() {
     this.service.getProdutos().subscribe({
       next: (res) => {
@@ -41,17 +43,45 @@ export class ProdutoComponent implements OnInit {
     });
   }
 
-  salvar() {
-    this.service.createProduto(this.form.value).subscribe({
-      next: () => {
-        alert('Produto criado!');
-        this.form.reset();
-        this.listar(); // 
-      },
-      error: (err) => {
-        console.error(err);
-        alert('Erro ao criar produto');
-      }
+  
+  editar(produto: any) {
+    this.form.patchValue({
+      nome: produto.nome,
+      preco: produto.preco
     });
+    this.produtoEditandoId = produto.id;
   }
+
+  
+  deletar(id: number) {
+    if (confirm('Tem certeza que deseja deletar este produto?')) {
+      this.service.deleteProduto(id).subscribe(() => {
+        alert('Produto deletado!');
+        this.listar(); 
+      });
+    }
+  }
+
+  
+  salvar() {
+    if (this.produtoEditandoId !== null) {
+      
+      this.service.updateProduto(this.produtoEditandoId, this.form.value)
+        .subscribe(() => {
+          alert('Produto atualizado!');
+          this.form.reset();
+          this.produtoEditandoId = null;
+          this.listar();
+        });
+    } else {
+      
+      this.service.createProduto(this.form.value)
+        .subscribe(() => {
+          alert('Produto criado!');
+          this.form.reset();
+          this.listar();
+        });
+    }
+  }
+
 }

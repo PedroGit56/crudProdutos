@@ -15,6 +15,10 @@ export class PedidoService {
     return this.http.post(this.api, pedido);
   }
 
+  deletePedido(id: number) {
+    return this.http.delete(`${this.api}/${id}`);
+  }
+
   getPedidos(): Observable<any[]> {
     return this.http.get<any[]>(this.api);
   }

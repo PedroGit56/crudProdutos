@@ -76,7 +76,7 @@ public class PedidoController : ControllerBase
 
         if (pedido == null)
            return NotFound();
-
+        pedido.Produtos.Clear();
         _context.Pedidos.Remove(pedido);
         _context.SaveChanges();
 

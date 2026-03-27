@@ -9,6 +9,17 @@ public class AppDbContext : DbContext
     {
         
     }
+
     public DbSet<Produto> Produtos { get; set; }
     public DbSet<Pedido> Pedidos { get; set; }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        base.OnModelCreating(modelBuilder);
+
+        modelBuilder.Entity<Pedido>()
+            .HasMany(p => p.Produtos)
+            .WithMany(p => p.Pedidos)
+            .UsingEntity(j => j.ToTable("PedidoProduto"));
+    }
 }

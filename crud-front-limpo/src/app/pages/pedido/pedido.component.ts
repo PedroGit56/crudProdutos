@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 
 import { ProdutoService } from '../../services/produto.service';
 import { PedidoService } from '../../services/pedido.service';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-pedido',
@@ -16,6 +17,12 @@ export class PedidoComponent implements OnInit {
 
   form!: FormGroup;
   produtos: any[] = [];
+  pedidos: any[] = [];
+  filtroNumero = new FormControl('');
+  pedidosFiltrados: any[] = [];
+
+
+  produtosSelecionados: number[] = [];
 
   constructor(
     private fb: FormBuilder,
@@ -30,6 +37,34 @@ export class PedidoComponent implements OnInit {
     });
 
     this.carregarProdutos();
+    this.carregarPedidos();
+
+    this.filtroNumero.valueChanges.subscribe(valor => {
+      this.filtrarPedidos(valor || '');
+    })
+  }
+
+  carregarPedidos() {
+    this.pedidoService.getPedidos().subscribe(res => {
+      this.pedidos = res;
+    });
+  }
+
+  filtrarPedidos(valor: string) {
+    const numero = Number(valor);
+
+    if (!numero || numero === 0) {
+      this.pedidosFiltrados = this.pedidos;
+    } else {
+      this.pedidosFiltrados = this.pedidos.filter(p => p.numero === numero);
+    }
+  }
+
+  deletarPedido(id: number) {
+    this.pedidoService.deletePedido(id).subscribe(() => {
+      alert('Pedido deletado');
+      this.carregarPedidos;
+    })
   }
 
   carregarProdutos() {
@@ -38,28 +73,35 @@ export class PedidoComponent implements OnInit {
     });
   }
 
+  
   selecionarProduto(id: number, event: any) {
-    const selecionados = this.form.value.produtosIds;
-
     if (event.target.checked) {
-      selecionados.push(id);
+
+      if (!this.produtosSelecionados.includes(id)) {
+        this.produtosSelecionados.push(id);
+      }
+
     } else {
-      const index = selecionados.indexOf(id);
-      selecionados.splice(index, 1);
+      this.produtosSelecionados = this.produtosSelecionados.filter(p => p !== id);
     }
 
-    this.form.patchValue({ produtosIds: selecionados });
+    this.form.patchValue({
+      produtosIds: this.produtosSelecionados
+    });
   }
 
   salvar() {
     this.pedidoService.criarPedido(this.form.value).subscribe({
       next: () => {
         alert('Pedido criado!');
+
         this.form.reset();
+        this.produtosSelecionados = []; 
+        this.carregarPedidos(); 
       },
-      error: (err) => {
+      error: (err: any) => {
         console.error(err);
-        alert(err.error); // mostra erro do backend
+        alert(err.error);
       }
     });
   }

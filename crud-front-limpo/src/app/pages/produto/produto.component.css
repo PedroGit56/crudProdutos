@@ -3,6 +3,7 @@
   margin: 40px auto;
   font-family: Arial, sans-serif;
  
+ 
 }
 
 .card {
@@ -41,21 +42,21 @@ input {
 
 input:focus {
   outline: none;
-  border-color: #007bff;
+  border-color: #28a745;
 }
 
 button {
   padding: 10px;
   border: none;
   border-radius: 6px;
-  background-color: #007bff;
+  background-color: #28a745;
   color: white;
   font-weight: bold;
   cursor: pointer;
 }
 
 button:hover {
-  background-color: #0056b3;
+  background-color: #218838;
 }
 
 table {
@@ -72,4 +73,10 @@ th {
 td {
   padding: 10px;
   border-bottom: 1px solid #eee;
+}
+
+.botoes {
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
 }

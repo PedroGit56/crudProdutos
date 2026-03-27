@@ -61,6 +61,8 @@ public ProdutoController(AppDbContext context)
         produto.Nome = dto.Nome;
         produto.Preco = dto.Preco;
 
+        _context.SaveChanges();
+
         return Ok(produto);
     }
 

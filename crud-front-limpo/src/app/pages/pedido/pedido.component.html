@@ -5,24 +5,50 @@
 
     <form [formGroup]="form" (ngSubmit)="salvar()">
 
-      <input type="number" formControlName="numero" placeholder="Número do pedido" />
+      <input id="numero-pedido" type="number" formControlName="numero" placeholder="Número do pedido" />
 
       <h3>Selecione os produtos</h3>
 
       <div *ngFor="let produto of produtos">
         <label>
-            
-          <input type="checkbox"
-                 (change)="selecionarProduto(produto.id, $event)" />
+          <input  type="checkbox" (change)="selecionarProduto(produto.id, $event)" />
           {{ produto.nome }} - R$ {{ produto.preco }}
-           
         </label>
       </div>
       <p *ngIf="produtos.length === 0">Nenhum produto cadastrado.</p>
 
-      <button type="submit">Criar Pedido</button>
+      <button id="criar" type="submit">Criar Pedido</button>
 
     </form>
+  </div>
+
+  <div class="card filtro-pedidos">
+    <h2>Lista de Pedidos</h2>
+    <div class="input-filter">
+    <input 
+      type="number" 
+      placeholder="Filtrar por número do pedido" 
+      [formControl]="filtroNumero" 
+      style="margin-bottom: 10px; padding: 14px; border-radius: 20px ; font-size: 14px ; width: 80%; border: none; align-self: center; background-color: rgb(231, 231, 231 );" />
+
+    <div *ngIf="pedidosFiltrados.length === 0">
+      Nenhum pedido encontrado
+      
+    </div>
+    </div>
+
+    <div *ngFor="let pedido of pedidosFiltrados" class="pedido-card">
+
+      <h3>Pedido #{{ pedido.numero }}</h3>
+
+      <ul>
+        <li *ngFor="let produto of pedido.produtos">
+          {{ produto.nome }} - R$ {{ produto.preco }}
+        </li>
+      </ul>
+      <button (click)="deletarPedido(pedido.id)">Excluir</button>
+
+    </div>
   </div>
 
 </div>
