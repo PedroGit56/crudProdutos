@@ -74,6 +74,12 @@ public ProdutoController(AppDbContext context)
 
         if (produto == null)
             return NotFound();
+
+            var produtoEmPedido = _context.Pedidos
+            .Any(p => p.Produtos.Any(prod => prod.Id == id));
+
+            if(produtoEmPedido)
+            return BadRequest("Não é possivel excluir um produto que está em um pedido.");
         
         _context.Produtos.Remove(produto);
         _context.SaveChanges();

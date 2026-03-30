@@ -1,117 +1,38 @@
-
-
 .container {
-  max-width: 600px;
-  margin: 40px auto;
-  font-family: Arial, sans-serif;
+  max-width: 900px;
+  margin: 2rem auto;
 }
 
 .card {
-  max-width: 600px;
-  background: #ffffff;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  background: var(--p-content-background);
+  border-radius: 16px;
 }
 
+/* Cards de produto */
+.produto-card {
+  transition: all 0.2s;
+  cursor: pointer;
+}
+
+.produto-card:hover {
+  background-color: var(--p-primary-50);
+}
+
+/* Cards de pedido */
+.pedido-card {
+  background: var(--p-content-background);
+  transition: all 0.2s;
+}
+
+.pedido-card:hover {
+  transform: translateY(-3px);
+}
+
+/* Títulos */
 h2 {
-  margin-bottom: 15px;
-  text-align: center;
-  font-family: Arial, Helvetica, sans-serif;
+  color: var(--p-text-color);
 }
 
 h3 {
-  margin: 15px 0 10px;
-  font-size: 16px;
-}
-
-form {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-input[type="number"] {
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-}
-
-input:focus {
-  outline: none;
-  border-color: #007bff;
-}
-
-.produtos {
-  max-height: 200px;
-  overflow-y: auto;
-  border: 1px solid #eee;
-  padding: 10px;
-  border-radius: 6px;
-}
-
-.produtos label {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 5px 0;
-  cursor: pointer;
-}
-
-.produtos input[type="checkbox"] {
-  transform: scale(1.2);
-}
-
-button {
-  margin-top: 10px;
-  padding: 10px;
-  border: none;
-  border-radius: 6px;
-  background-color: #28a745;
-  color: white;
-  font-weight: bold;
-  cursor: pointer;
-}
-
-button:hover {
-  background-color: #218838;
-}
-
-.pedido-card {
-  border: 1px solid #eee;
-  padding: 12px;
-  margin-top: 10px;
-  border-radius: 6px;
-  background-color: #fafafa;
-  font-family: Arial, Helvetica, sans-serif;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-}
-
-ul {
-  padding-left: 20px;
-}
-
-li {
-  margin: 5px 0;
-}
-
-.input-filter {
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  gap: 10px;
-}
-
-#numero-pedido {
-  border: none;
-  background-color: rgb(231, 231, 231 );
-  border-radius: 20px;
-  padding: 14px;
-  font-size: 14px;
-
-}
-
-#criar {
-  border-radius: 20px;
-  padding: 12px;
+  color: var(--p-text-color);
 }

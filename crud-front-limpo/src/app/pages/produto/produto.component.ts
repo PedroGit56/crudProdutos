@@ -3,10 +3,31 @@ import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ProdutoService } from '../../services/produto.service';
 
+// IMPORTS PRIMENG 21
+import { Button } from 'primeng/button';
+import { InputText } from 'primeng/inputtext';
+import { InputNumber } from 'primeng/inputnumber';
+import { TableModule } from 'primeng/table'; 
+import { Toast } from 'primeng/toast';
+import { ConfirmDialog } from 'primeng/confirmdialog';
+import { MessageService, ConfirmationService } from 'primeng/api';
+
 @Component({
   selector: 'app-produto',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+
+  imports: [
+    CommonModule, 
+    ReactiveFormsModule, 
+    Button, 
+    InputText, 
+    InputNumber, 
+    TableModule, 
+    Toast, 
+    ConfirmDialog
+  ],
+  // ADICIONADO: Providers essenciais para Toast e ConfirmDialog
+  providers: [MessageService, ConfirmationService],
   templateUrl: './produto.component.html',
   styleUrls: ['./produto.component.css']
 })
@@ -18,7 +39,9 @@ export class ProdutoComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private service: ProdutoService
+    private service: ProdutoService,
+    private messageService: MessageService,      // Para o Toast
+    private confirmationService: ConfirmationService // Para o Dialog
   ) {}
 
   ngOnInit(): void {
@@ -30,58 +53,62 @@ export class ProdutoComponent implements OnInit {
     this.listar(); 
   }
 
-  
   listar() {
     this.service.getProdutos().subscribe({
       next: (res) => {
-        console.log('PRODUTOS:', res);
+
         this.produtos = res; 
       },
-      error: (err) => {
-        console.error(err);
+      error: (err) => console.error(err)
+    });
+  }
+
+  editar(produto: any) {
+    this.form.patchValue(produto);
+    this.produtoEditandoId = produto.id;
+  }
+
+  deletar(id: number) {
+    // Usando o ConfirmDialog do PrimeNG em vez do confirm() nativo
+    this.confirmationService.confirm({
+      message: 'Tem certeza que deseja deletar este produto?',
+      header: 'Confirmação de Exclusão',
+      icon: 'pi pi-excluir',
+      acceptLabel: 'Sim',
+      rejectLabel: 'Não',
+      accept: () => {
+        this.service.deleteProduto(id).subscribe({
+          next: () => {
+            this.messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Produto deletado!' });
+            this.listar(); 
+          },
+          error: (err) => {
+            this.messageService.add({ severity: 'error', summary: 'Erro', detail: err.error });
+          }
+        });
       }
     });
   }
 
-  
-  editar(produto: any) {
-    this.form.patchValue({
-      nome: produto.nome,
-      preco: produto.preco
-    });
-    this.produtoEditandoId = produto.id;
-  }
-
-  
-  deletar(id: number) {
-    if (confirm('Tem certeza que deseja deletar este produto?')) {
-      this.service.deleteProduto(id).subscribe(() => {
-        alert('Produto deletado!');
-        this.listar(); 
-      });
-    }
-  }
-
-  
   salvar() {
-    if (this.produtoEditandoId !== null) {
-      
-      this.service.updateProduto(this.produtoEditandoId, this.form.value)
-        .subscribe(() => {
-          alert('Produto atualizado!');
-          this.form.reset();
-          this.produtoEditandoId = null;
-          this.listar();
-        });
-    } else {
-      
-      this.service.createProduto(this.form.value)
-        .subscribe(() => {
-          alert('Produto criado!');
-          this.form.reset();
-          this.listar();
-        });
-    }
-  }
+    const acao = this.produtoEditandoId 
+      ? this.service.updateProduto(this.produtoEditandoId, this.form.value)
+      : this.service.createProduto(this.form.value);
 
+    acao.subscribe({
+      next: () => {
+        this.messageService.add({ 
+          severity: 'success', 
+          summary: 'Sucesso', 
+          detail: this.produtoEditandoId ? 'Produto atualizado!' : 'Produto criado!' 
+        });
+        this.form.reset();
+        this.produtoEditandoId = null;
+        this.listar();
+      },
+      error: () => {
+        this.messageService.add({ severity: 'error', summary: 'Erro', detail: 'Falha na operação' });
+      }
+    });
+  }
 }

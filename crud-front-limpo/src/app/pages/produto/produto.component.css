@@ -1,82 +1,69 @@
 .container {
-  max-width: 600px;
-  margin: 40px auto;
-  font-family: Arial, sans-serif;
- 
- 
+  max-width: 700px;
+  margin: 2rem auto;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
 }
+
 
 .card {
-  background: #fff;
-  padding: 20px;
-  margin-bottom: 20px;
-  border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  background: var(--p-content-background);
+  border-radius: 16px;
 }
 
-.card1 {
-  background: #fff;
-  padding: 20px;
-  margin-bottom: 20px;
-  border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-  text-align: center;
+
+:host ::ng-deep .p-inputtext {
+  border-radius: 12px;
+  padding: 0.75rem 1rem;
+  transition: all 0.2s;
 }
+
+
+:host ::ng-deep .p-inputtext:focus {
+  border-color: var(--p-primary-color);
+  box-shadow: 0 0 0 2px var(--p-primary-100);
+}
+
+
+:host ::ng-deep .p-inputnumber {
+  width: 100%;
+}
+
+
+:host ::ng-deep .p-datatable {
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+
+:host ::ng-deep .p-datatable .p-datatable-thead > tr > th {
+  background-color: var(--p-content-background);
+  color: var(--p-text-muted-color);
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+
+:host ::ng-deep .p-datatable .p-datatable-tbody > tr {
+  transition: background 0.2s;
+}
+
+:host ::ng-deep .p-datatable .p-datatable-tbody > tr:hover {
+  background-color: var(--p-primary-50);
+}
+
+
+:host ::ng-deep .p-button {
+  transition: transform 0.1s;
+}
+
+:host ::ng-deep .p-button:hover {
+  transform: scale(1.05);
+}
+
 
 h2 {
-  margin-bottom: 15px;
-  text-align: center;
-}
-
-form {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-input {
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-}
-
-input:focus {
-  outline: none;
-  border-color: #28a745;
-}
-
-button {
-  padding: 10px;
-  border: none;
-  border-radius: 6px;
-  background-color: #28a745;
-  color: white;
-  font-weight: bold;
-  cursor: pointer;
-}
-
-button:hover {
-  background-color: #218838;
-}
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-th {
-  text-align: left;
-  border-bottom: 2px solid #ddd;
-  padding: 10px;
-}
-
-td {
-  padding: 10px;
-  border-bottom: 1px solid #eee;
-}
-
-.botoes {
-  display: flex;
-  flex-direction: row;
-  gap: 15px;
+  color: var(--p-text-color);
+  letter-spacing: -0.02em;
 }

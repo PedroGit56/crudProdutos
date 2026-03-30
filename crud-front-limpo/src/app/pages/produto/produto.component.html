@@ -1,45 +1,101 @@
-<div class="container">
+<div class="container p-4">
 
-  <div class="card1">
-    <h2>{{ produtoEditandoId ? 'Editar Produto' : 'Cadastro de Produto' }}</h2>
+  <p-toast></p-toast>
+  <p-confirmDialog></p-confirmDialog>
 
-    <form [formGroup]="form" (ngSubmit)="salvar()">
-      <input type="text" formControlName="nome" placeholder="Nome do produto" required />
-      <input type="number" formControlName="preco" placeholder="Preço" required />
+  <!-- Cadastro -->
+  <div class="card p-4 shadow-2 border-round-xl">
+    <h2 class="text-center mb-4">Cadastro de Produto</h2>
 
-      <button type="submit">{{ produtoEditandoId ? 'Atualizar' : 'Salvar' }}</button>
-      <button type="button" (click)="form.reset(); produtoEditandoId = null;">Cancelar</button>
+    <form [formGroup]="form" (ngSubmit)="salvar()" class="flex flex-column gap-4">
+      
+      <div class="flex flex-column gap-2">
+        <label for="nome" class="font-bold">Nome do produto</label>
+        <input 
+          pInputText 
+          id="nome" 
+          formControlName="nome" 
+          placeholder="Escreva o nome do produto" />
+      </div>
+
+      <div class="flex flex-column gap-2">
+        <label for="preco" class="font-bold">Preço</
+        label>
+        <p-inputNumber
+          placeholder="Digite o preço do produto" 
+          id="preco" 
+          formControlName="preco" 
+          mode="currency" 
+          currency="BRL" 
+          locale="pt-BR"
+          [style]="{'width': '100%'}">
+        </p-inputNumber>
+      </div>
+
+      <p-button 
+        type="submit" 
+        [label]="produtoEditandoId ? 'Atualizar Produto' : 'Cadastrar Produto'" 
+        [icon]="produtoEditandoId ? 'pi pi-refresh' : 'pi pi-plus'"
+        class="w-full"
+        severity="success">
+      </p-button>
+
     </form>
   </div>
 
- 
-  <div class="card">
-    <h2>Lista de Produtos</h2>
+  <!-- Lista -->
+  <div class="card p-4 shadow-2 border-round-xl">
+    <h2 class="mb-4">Lista de Produtos</h2>
 
-    <table *ngIf="produtos.length > 0">
-      <thead>
+    <p-table 
+      [value]="produtos" 
+      [paginator]="true" 
+      [rows]="5" 
+      responsiveLayout="stack" 
+      *ngIf="produtos.length > 0">
+
+      <ng-template pTemplate="header">
         <tr>
           <th>Nome</th>
           <th>Preço</th>
-          <th>Ações</th>
+          <th class="text-center">Ações</th>
         </tr>
-      </thead>
+      </ng-template>
 
-      <tbody>
-        <tr *ngFor="let produto of produtos">
+      <ng-template pTemplate="body" let-produto>
+        <tr>
           <td>{{ produto.nome }}</td>
-          <td>R$ {{ produto.preco }}</td>
-          <td>
-            <div class="botoes">
-            <button (click)="editar(produto)">Editar</button>
-            <button (click)="deletar(produto.id)">Deletar</button>
-            </div>
+          <td class="font-semibold">
+            {{ produto.preco | currency:'BRL' }}
+          </td>
+          <td class="flex justify-content-center gap-2">
+
+            <p-button 
+              icon="pi pi-pencil" 
+              [rounded]="true"
+              (click)="editar(produto)" 
+              pTooltip="Editar">
+            </p-button>
+
+            <p-button 
+              icon="pi pi-trash" 
+              [rounded]="true"
+              severity="danger"
+              (click)="deletar(produto.id)" 
+              pTooltip="Excluir">
+            </p-button>
+
           </td>
         </tr>
-      </tbody>
-    </table>
+      </ng-template>
 
-    <p *ngIf="produtos.length === 0">Nenhum produto cadastrado.</p>
+    </p-table>
+
+    <div *ngIf="produtos.length === 0" class="text-center p-5 surface-ground border-round">
+      <i class="pi pi-box text-4xl mb-3 text-400"></i>
+      <p class="text-secondary">Nenhum produto cadastrado até o momento.</p>
+    </div>
+
   </div>
 
 </div>

@@ -5,11 +5,17 @@ import { CommonModule } from '@angular/common';
 import { ProdutoService } from '../../services/produto.service';
 import { PedidoService } from '../../services/pedido.service';
 import { FormControl } from '@angular/forms';
+import { InputTextModule } from 'primeng/inputtext';
+import { ButtonModule } from 'primeng/button';
+import { CheckboxModule } from 'primeng/checkbox';
+import { ToastModule } from 'primeng/toast';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+
 
 @Component({
   selector: 'app-pedido',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, InputTextModule, ButtonModule, CheckboxModule, ToastModule, ConfirmDialogModule],
   templateUrl: './pedido.component.html',
   styleUrls: ['./pedido.component.css']
 })
