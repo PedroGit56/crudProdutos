@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ProdutoService } from '../../services/produto.service';
 
-// IMPORTS PRIMENG 21
+
 import { Button } from 'primeng/button';
 import { InputText } from 'primeng/inputtext';
 import { InputNumber } from 'primeng/inputnumber';
@@ -11,6 +11,7 @@ import { TableModule } from 'primeng/table';
 import { Toast } from 'primeng/toast';
 import { ConfirmDialog } from 'primeng/confirmdialog';
 import { MessageService, ConfirmationService } from 'primeng/api';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-produto',
@@ -24,9 +25,10 @@ import { MessageService, ConfirmationService } from 'primeng/api';
     InputNumber, 
     TableModule, 
     Toast, 
-    ConfirmDialog
+    ConfirmDialog,
+    RouterModule
   ],
-  // ADICIONADO: Providers essenciais para Toast e ConfirmDialog
+ 
   providers: [MessageService, ConfirmationService],
   templateUrl: './produto.component.html',
   styleUrls: ['./produto.component.css']
@@ -40,8 +42,8 @@ export class ProdutoComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private service: ProdutoService,
-    private messageService: MessageService,      // Para o Toast
-    private confirmationService: ConfirmationService // Para o Dialog
+    private messageService: MessageService,      
+    private confirmationService: ConfirmationService 
   ) {}
 
   ngOnInit(): void {
@@ -69,7 +71,7 @@ export class ProdutoComponent implements OnInit {
   }
 
   deletar(id: number) {
-    // Usando o ConfirmDialog do PrimeNG em vez do confirm() nativo
+    
     this.confirmationService.confirm({
       message: 'Tem certeza que deseja deletar este produto?',
       header: 'Confirmação de Exclusão',

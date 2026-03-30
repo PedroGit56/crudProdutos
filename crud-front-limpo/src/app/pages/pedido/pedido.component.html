@@ -1,56 +1,114 @@
-<div class="container">
+<div class="container p-4">
 
-  <div class="card">
-    <h2>Criar Pedido</h2>
+  <p-toast></p-toast>
+  <p-confirmDialog></p-confirmDialog>
 
-    <form [formGroup]="form" (ngSubmit)="salvar()">
+  <div class="card p-4 shadow-2 border-round-xl">
 
-      <input id="numero-pedido" type="number" formControlName="numero" placeholder="Número do pedido" />
+    <div class="flex justify-content-between align-items-center mb-4">
+      <h2 class="m-0">Criar Pedido</h2>
 
-      <h3>Selecione os produtos</h3>
+      <p-button 
+        [routerLink]="['/']"
+        label="Voltar para Produtos" 
+        icon="pi pi-arrow-left"
+        severity="secondary">
+      </p-button>
+    </div>
 
-      <div *ngFor="let produto of produtos">
-        <label>
-          <input  type="checkbox" (change)="selecionarProduto(produto.id, $event)" />
-          {{ produto.nome }} - R$ {{ produto.preco }}
-        </label>
+    <form [formGroup]="form" (ngSubmit)="salvar()" class="flex flex-column gap-4">
+
+      <div class="flex flex-column gap-2">
+        <label class="font-bold">Número do pedido</label>
+        <input 
+          pInputText 
+          type="number" 
+          formControlName="numero" />
       </div>
-      <p *ngIf="produtos.length === 0">Nenhum produto cadastrado.</p>
 
-      <button id="criar" type="submit">Criar Pedido</button>
+      <div>
+        <h3 class="mb-3">Selecione os produtos</h3>
+
+        <div class="grid">
+          <div *ngFor="let produto of produtos" class="col-12 md:col-6">
+
+            <div class="produto-card flex align-items-center gap-3 p-3 border-round-lg surface-ground">
+
+              <p-checkbox 
+                [binary]="true"
+                (onChange)="selecionarProduto(produto.id, $event)">
+              </p-checkbox>
+
+              <div class="flex flex-column">
+                <span class="font-semibold">{{ produto.nome }}</span>
+                <small class="text-500">
+                  {{ produto.preco | currency:'BRL' }}
+                </small>
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+
+        <p *ngIf="produtos.length === 0" class="text-center">
+          Nenhum produto cadastrado.
+        </p>
+      </div>
+
+      <p-button 
+        type="submit" 
+        label="Criar Pedido" 
+        icon="pi pi-check"
+        severity="success"
+        class="w-full">
+      </p-button>
 
     </form>
   </div>
 
-  <div class="card filtro-pedidos">
-    <h2>Lista de Pedidos</h2>
-    <div class="input-filter">
-    <input 
-      type="number" 
-      placeholder="Filtrar por número do pedido" 
-      [formControl]="filtroNumero" 
-      style="margin-bottom: 10px; padding: 14px; border-radius: 20px ; font-size: 14px ; width: 80%; border: none; align-self: center; background-color: rgb(231, 231, 231 );" />
+  <div class="card p-4 shadow-2 border-round-xl mt-4">
+    <h2 class="mb-4">Lista de Pedidos</h2>
 
-    <div *ngIf="pedidosFiltrados.length === 0">
+    <div class="mb-4">
+      <input 
+        pInputText
+        type="number" 
+        placeholder="Filtrar por número do pedido" 
+        [formControl]="filtroNumero"
+        class="w-full" />
+    </div>
+
+    <div *ngIf="pedidosFiltrados.length === 0" class="text-center p-4 surface-ground border-round">
       Nenhum pedido encontrado
       
     </div>
+
+    <div class="grid">
+      <div *ngFor="let pedido of pedidosFiltrados" class="col-12 md:col-6">
+
+        <div class="pedido-card p-3 shadow-1 border-round-lg">
+
+          <h3 class="mb-2">Pedido {{ pedido.numero }}</h3>
+
+          <ul class="mb-3">
+            <li *ngFor="let produto of pedido.produtos">
+              {{ produto.nome }} - {{ produto.preco | currency:'BRL' }}
+            </li>
+          </ul>
+
+          <p-button 
+            icon="pi pi-trash" 
+            label="Excluir"
+            severity="danger"
+            (click)="deletarPedido(pedido.id)">
+          </p-button>
+
+        </div>
+
+      </div>
     </div>
 
-    <div *ngFor="let pedido of pedidosFiltrados" class="pedido-card">
-
-      <h3>Pedido #{{ pedido.numero }}</h3>
-
-      <ul>
-        <li *ngFor="let produto of pedido.produtos">
-          {{ produto.nome }} - R$ {{ produto.preco }}
-        </li>
-      </ul>
-      <button (click)="deletarPedido(pedido.id)">Excluir</button>
-
-      
-
-    </div>
   </div>
 
 </div>

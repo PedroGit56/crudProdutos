@@ -1,14 +1,16 @@
 .container {
   max-width: 900px;
   margin: 2rem auto;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
+
 
 .card {
   background: var(--p-content-background);
   border-radius: 16px;
 }
 
-/* Cards de produto */
+
 .produto-card {
   transition: all 0.2s;
   cursor: pointer;
@@ -18,21 +20,32 @@
   background-color: var(--p-primary-50);
 }
 
-/* Cards de pedido */
+
 .pedido-card {
+font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background: var(--p-content-background);
   transition: all 0.2s;
+  font-weight: 500;
 }
 
 .pedido-card:hover {
-  transform: translateY(-3px);
+  transform: translateY(-4px);
 }
 
-/* Títulos */
+
 h2 {
   color: var(--p-text-color);
 }
 
 h3 {
   color: var(--p-text-color);
+}
+
+
+ul {
+  padding-left: 1rem;
+}
+
+li {
+  margin-bottom: 4px;
 }
