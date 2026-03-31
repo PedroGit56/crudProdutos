@@ -11,15 +11,27 @@ export class PedidoService {
 
   constructor(private http: HttpClient) {}
 
+ 
   criarPedido(pedido: any): Observable<any> {
     return this.http.post(this.api, pedido);
   }
 
-  deletePedido(id: number) {
+ 
+  getPedidos(): Observable<any[]> {
+    return this.http.get<any[]>(this.api);
+  }
+
+ 
+  updatePedido(id: number, pedido: any): Observable<any> {
+    return this.http.put(`${this.api}/${id}`, pedido);
+  }
+
+ 
+  deletePedido(id: number): Observable<any> {
     return this.http.delete(`${this.api}/${id}`);
   }
 
-  getPedidos(): Observable<any[]> {
-    return this.http.get<any[]>(this.api);
+  atualizarPedido(id: number, pedido: any) {
+    return this.http.put(`${this.api}/${id}`, pedido);
   }
 }

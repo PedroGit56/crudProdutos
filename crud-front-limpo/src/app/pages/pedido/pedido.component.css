@@ -49,3 +49,11 @@ ul {
 li {
   margin-bottom: 4px;
 }
+
+:host ::ng-deep .p-button:hover {
+  transform: scale(1.05);
+}
+
+:host ::ng-deep .p-button {
+  transition: transform 0.1s;
+}

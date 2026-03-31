@@ -13,7 +13,8 @@ import { ToastModule } from 'primeng/toast';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { MessageService, ConfirmationService } from 'primeng/api';
 import { RouterModule } from '@angular/router';
-
+import { DialogModule } from 'primeng/dialog';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-pedido',
@@ -26,7 +27,9 @@ import { RouterModule } from '@angular/router';
     CheckboxModule,
     ToastModule,
     ConfirmDialogModule,
-    RouterModule
+    RouterModule,
+    DialogModule,
+    FormsModule
   ],
   providers: [MessageService, ConfirmationService],
   templateUrl: './pedido.component.html',
@@ -37,12 +40,16 @@ export class PedidoComponent implements OnInit {
   form!: FormGroup;
   produtos: any[] = [];
   pedidos: any[] = [];
-  
+
   pedidosFiltrados: any[] = [];
 
   filtroNumero = new FormControl('');
 
   produtosSelecionados: number[] = [];
+
+  pedidoEditandoId: number | null = null;
+
+  mostrarModal = false;
 
   constructor(
     private fb: FormBuilder,
@@ -54,7 +61,7 @@ export class PedidoComponent implements OnInit {
 
   ngOnInit(): void {
     this.form = this.fb.group({
-      numero: [0],
+      numero: [''],
       produtosIds: [[]]
     });
 
@@ -65,6 +72,19 @@ export class PedidoComponent implements OnInit {
       this.filtrarPedidos(valor ?? '');
     });
   }
+
+editarPedido(pedido: any) {
+  this.pedidoEditandoId = pedido.id;
+
+  this.form.patchValue({
+    numero: pedido.numero 
+  });
+
+  this.produtosSelecionados = pedido.produtos.map((p: any) => p.id);
+
+  this.mostrarModal = true;
+}
+
 
   carregarPedidos(): void {
     this.pedidoService.getPedidos().subscribe({
@@ -103,19 +123,23 @@ export class PedidoComponent implements OnInit {
     } else {
       this.produtosSelecionados = this.produtosSelecionados.filter(p => p !== id);
     }
-
-    this.form.patchValue({
-      produtosIds: this.produtosSelecionados
-    });
   }
+
+ removerProduto(id: number) {
+  this.produtosSelecionados = this.produtosSelecionados.filter(p => p !== id);
+
+  this.form.patchValue({
+    produtosIds: this.produtosSelecionados
+  });
+}
+
 
   deletarPedido(id: number): void {
     this.confirmationService.confirm({
       message: 'Tem certeza que deseja deletar este pedido?',
       header: 'Confirmação',
       icon: 'pi pi-exclamation-triangle',
-      acceptLabel: 'Sim',
-      rejectLabel: 'Não',
+
       accept: () => {
         this.pedidoService.deletePedido(id).subscribe({
           next: () => {
@@ -133,24 +157,39 @@ export class PedidoComponent implements OnInit {
     });
   }
 
-  salvar(): void {
-    if (this.form.invalid) return;
+salvar(): void {
+  const payload = {
+    numero: Number(this.form.getRawValue().numero),
+    produtosIds: this.produtosSelecionados
+  };
 
-    this.pedidoService.criarPedido(this.form.value).subscribe({
+  console.log('ENVIANDO:', payload); 
+
+  if (this.pedidoEditandoId !== null) {
+    this.pedidoService.atualizarPedido(this.pedidoEditandoId, payload).subscribe({
       next: () => {
         this.messageService.add({
           severity: 'success',
           summary: 'Sucesso',
-          detail: 'Pedido criado com sucesso!'
+          detail: 'Pedido atualizado com sucesso!'
         });
 
-        this.form.reset({ numero: 0, produtosIds: [] });
-        this.produtosSelecionados = [];
-
-        this.carregarPedidos();
+        this.resetForm();
       },
-      error: (err) => this.mostrarErro('Erro ao criar pedido', err)
+      error: (err) => {
+        console.error('ERRO BACK:', err);
+        this.mostrarErro('Erro ao atualizar pedido', err);
+      }
     });
+  }
+}
+
+  resetForm() {
+    this.form.reset({ numero: '', produtosIds: [] });
+    this.produtosSelecionados = [];
+    this.pedidoEditandoId = null;
+    this.mostrarModal = false;
+    this.carregarPedidos();
   }
 
   private mostrarErro(resumo: string, erro: any): void {

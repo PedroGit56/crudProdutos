@@ -102,4 +102,37 @@ public class PedidoController : ControllerBase
 
             return Ok(resultado);
     }
+
+     [HttpPut("{id}")]
+public async Task<IActionResult> AtualizarPedido(int id, [FromBody] PedidoCreateDTO dto)
+{
+    var pedido = await _context.Pedidos
+        .Include(p => p.Produtos)
+        .FirstOrDefaultAsync(p => p.Id == id);
+
+    if (pedido == null)
+        return NotFound();
+
+    pedido.Numero = dto.Numero;
+
+    pedido.Produtos.Clear();
+
+    if (dto.ProdutosIds != null && dto.ProdutosIds.Any())
+    {
+        var produtos = await _context.Produtos
+            .Where(p => dto.ProdutosIds.Contains(p.Id))
+            .ToListAsync();
+
+        foreach (var produto in produtos)
+        {
+            pedido.Produtos.Add(produto);
+        }
+    }
+
+    await _context.SaveChangesAsync();
+
+    return Ok(pedido);
 }
+
+
+    }
